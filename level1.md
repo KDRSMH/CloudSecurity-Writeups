@@ -60,7 +60,7 @@ doğrulandı ve Level 2'nin adresi ifşa oldu:
 > **Congrats! You found the secret file!**
 > Level 2 is at `http://level2-c8b217a33fcf1f839f6f1f73a00a9ae7.flaws.cloud`
 
-![nslookup ile S3 static website hosting tespiti, --no-sign-request ile anonim s3 ls çıktısı ve secret-dd02c7c.html'de bulunan Level 2 adresi](../screenshots/level*1.png)
+![nslookup ile S3 static website hosting tespiti, --no-sign-request ile anonim s3 ls çıktısı ve secret-dd02c7c.html'de bulunan Level 2 adresi](/screenshots/level*1.png)
 
 ## 3. Önleme (Remediation) — Kendi Test Ortamımda (`test-lab-level1`)
 
@@ -83,7 +83,7 @@ aws s3 ls s3://test-lab-level1/ --no-sign-request --region us-west-2
 2026-07-28 23:59:16          17 test.txt
 ```
 
-![Kendi test bucket'ımda anonim s3 ls ile test.txt dosyasının başarıyla listelenmesi](../screenshots/kendilablevel-1.png)
+![Kendi test bucket'ımda anonim s3 ls ile test.txt dosyasının başarıyla listelenmesi](/screenshots/kendilablevel-1.png)
 
 ### b) Modern AWS gözlemi
 
@@ -101,7 +101,7 @@ on resource: "arn:aws:s3:::test-lab-level1" because public ACLs are prevented by
 BlockPublicAcls setting in S3 Block Public Access.
 ```
 
-![put-bucket-acl komutu BlockPublicAcls tarafından AccessDenied ile reddediliyor](../screenshots/acl-hata.png)
+![put-bucket-acl komutu BlockPublicAcls tarafından AccessDenied ile reddediliyor](/screenshots/acl-hata.png)
 
 Bu hatanın nedeni iki katmanlı modern varsayılan koruma:
 
@@ -111,7 +111,7 @@ Bu hatanın nedeni iki katmanlı modern varsayılan koruma:
    ile veriliyor. Public ACL denemesi öncesi Object Ownership ayarını manuel
    olarak "ACLs enabled" konumuna çekmem gerekti:
 
-   ![Object Ownership ekranı — "ACLs disabled (recommended)" varsayılanının yanında "ACLs enabled" seçili ve AWS'in ACL kullanımını caydıran uyarı kutuları](../screenshots/enabledacl.png)
+   ![Object Ownership ekranı — "ACLs disabled (recommended)" varsayılanının yanında "ACLs enabled" seçili ve AWS'in ACL kullanımını caydıran uyarı kutuları](/screenshots/enabledacl.png)
 
 2. **S3 Block Public Access** — hesap/bucket seviyesinde `BlockPublicAcls`
    ayarı, ACLs açık olsa bile public ACL uygulanmasını (`s3:PutBucketAcl`
@@ -124,7 +124,7 @@ Bu hatanın nedeni iki katmanlı modern varsayılan koruma:
 Kalıcı düzeltme, dört Block Public Access ayarının tamamının açılması ve
 bucket'ta herhangi bir public bucket policy bırakılmamasıdır:
 
-![Block public access (bucket settings) ekranı — dört ayar: Block all public access, new/any ACLs üzerinden, new/any bucket policy üzerinden](../screenshots/blocklist.png)
+![Block public access (bucket settings) ekranı — dört ayar: Block all public access, new/any ACLs üzerinden, new/any bucket policy üzerinden](/screenshots/blocklist.png)
 
 CLI karşılığı:
 
@@ -140,7 +140,7 @@ devrede olduğunu doğruluyor: **Block all public access: On**, bucket policy
 "No policy to display" (public erişim veren hiçbir policy yok), ve Object
 Ownership yeniden **"Bucket owner enforced"** (ACLs disabled) konumunda:
 
-![Permissions sekmesi — Block all public access: On, bucket policy yok, Object Ownership: Bucket owner enforced](../screenshots/çözmpanel.png)
+![Permissions sekmesi — Block all public access: On, bucket policy yok, Object Ownership: Bucket owner enforced](/screenshots/çözmpanel.png)
 
 ### d) Doğrulama
 
