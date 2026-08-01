@@ -36,7 +36,7 @@ ls -la
 `authenticated_users.png` dosyalarının yanında, normalde bir web sitesi
 deploy'unda bulunmaması gereken bir **`.git/` dizini** görülüyor:
 
-![aws s3 sync ile bucket indirme, cd level3, ls -la çıktısında .git dizininin görülmesi](screenshots/level-3_terminal-5.png)
+![aws s3 sync ile bucket indirme, cd level3, ls -la çıktısında .git dizininin görülmesi](screenshots/level-3_terminal-1.png)
 
 **b) Commit geçmişinin incelenmesi**
 
