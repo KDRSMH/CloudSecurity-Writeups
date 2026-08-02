@@ -55,7 +55,7 @@ http://4d0cf09b9b2d761a7d87be99d17507bce8b86f3b.flaws.cloud/proxy/<hedef>/
 ve `proxy/neverssl.com/` var. Görev: `level6-cc4c404a8a8b876167f5e70a7d8c9880
 .flaws.cloud` bucket'ının gizli bir dizinini bulmak.
 
-![Level 5 görev sayfası — proxy kullanım örnekleri ve level6 bucket hedefi](../screenshots/level-5_proxy%20hedefaçık.png)
+![Level 5 görev sayfası — proxy kullanım örnekleri ve level6 bucket hedefi](/screenshots/level-5_proxy%20hedefaçık.png)
 
 **b) Proxy'nin IMDS'e yönlendirilmesi ve role adının bulunması**
 
@@ -91,7 +91,7 @@ http://4d0cf09b9b2d761a7d87be99d17507bce8b86f3b.flaws.cloud/proxy/169.254.169.25
 }
 ```
 
-![Proxy üzerinden IMDS'ten çalınan geçici IAM Role credential'ları (redacted)](../screenshots/level-5-credentials.png)
+![Proxy üzerinden IMDS'ten çalınan geçici IAM Role credential'ları (redacted)](/screenshots/level-5-credentials.png)
 
 **Kritik fark — Level 3 ile karşılaştırma:** Level 3'te sızan credential,
 `AKIA` ile başlayan **long-term** bir IAM user access key'iydi — süresiz
@@ -115,7 +115,7 @@ aws configure set aws_secret_access_key [REDACTED] --profile flaws5
 aws configure set aws_session_token [REDACTED] --profile flaws5
 ```
 
-![Geçici credential'ların flaws5 profiline yüklenmesi (redacted)](../screenshots/level-5-credentials-kullan.png)
+![Geçici credential'ların flaws5 profiline yüklenmesi (redacted)](/screenshots/level-5-credentials-kullan.png)
 
 **Not:** Long-term key'lerden farklı olarak, geçici credential'larda
 normal `access_key_id` / `secret_access_key` ikilisine ek olarak
@@ -136,7 +136,7 @@ aws sts get-caller-identity --profile flaws5
 }
 ```
 
-![get-caller-identity çıktısı — assumed-role/flaws/i-05bef8a081f307783](../screenshots/level-5-idenity.png)
+![get-caller-identity çıktısı — assumed-role/flaws/i-05bef8a081f307783](/screenshots/level-5-idenity.png)
 
 `Arn` alanındaki **`assumed-role`** ifadesi, bu credential'ların bir IAM
 **user**'a değil, flaws.cloud hesabındaki bir EC2 instance'ına
@@ -164,14 +164,14 @@ aws s3 ls s3://level6-cc4c404a8a8b876167f5e70a7d8c9880.flaws.cloud/ddcc78ff/ --p
 2020-05-22 21:42:20       2924 index.html
 ```
 
-![level6 bucket listelemesi — gizli ddcc78ff/ dizininin bulunması](../screenshots/level-5-keşif.png)
+![level6 bucket listelemesi — gizli ddcc78ff/ dizininin bulunması](/screenshots/level-5-keşif.png)
 
 **g) Flag**
 
 `ddcc78ff/index.html` tarayıcıda açıldığında Level 6 sayfası göründü —
 level başarıyla tamamlandı:
 
-![ddcc78ff/index.html açıldı — flAWS Level 6 sayfası](../screenshots/level-5-flag.png)
+![ddcc78ff/index.html açıldı — flAWS Level 6 sayfası](/screenshots/level-5-flag.png)
 
 flaws.cloud'un bu level için verdiği "Lesson learned" metnini kendi
 cümlelerimle özetlersem:
@@ -205,7 +205,7 @@ Bunu kendi test ortamımda doğrulamak için ayrı bir EC2 instance
 **Actions → Instance settings → Modify instance metadata options** ile
 **IMDSv2: Required** olarak ayarladım:
 
-![Kendi test instance'ım — Instance summary, IMDSv2: Required](../screenshots/level-5-IMDSv2.png)
+![Kendi test instance'ım — Instance summary, IMDSv2: Required](/screenshots/level-5-IMDSv2.png)
 
 **Doğrulama 1 — token'sız istek artık reddediliyor:**
 
@@ -223,7 +223,7 @@ Sonuç:
 < Content-Length: 0
 ```
 
-![IMDSv2 Required sonrası token'sız curl isteği — 401 Unauthorized](../screenshots/level-5-önleme-401.png)
+![IMDSv2 Required sonrası token'sız curl isteği — 401 Unauthorized](/screenshots/level-5-önleme-401.png)
 
 Bu, önlemenin çalıştığının doğrudan kanıtı: SSRF'in genelde yapabildiği
 "basit GET isteği" artık IMDSv2 Required ile başarısız oluyor.
@@ -242,7 +242,7 @@ Sonuç: başarılı — tam metadata listesi döndü (`ami-id`, `instance-id`,
 `instance-type: t3.micro`, `public-ipv4: 54.213.179.157`,
 `security-groups: launch-wizard-2` vb.):
 
-![ec2-metadata --all çıktısı — IMDSv2 token ile başarılı erişim](../screenshots/level-5-metadata.png)
+![ec2-metadata --all çıktısı — IMDSv2 token ile başarılı erişim](/screenshots/level-5-metadata.png)
 
 Bu ikinci test önemli bir ayrımı gösteriyor: doğru protokolle (önce `PUT`
 ile token alıp sonra `GET` isteğinde bu token'ı header'a koyarak) erişim
