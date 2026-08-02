@@ -119,6 +119,16 @@ ortamımdaki bir güvenlik iyi-pratiği:
 chmod 400 flaws-lab-key.pem
 ssh -i flaws-lab-key.pem ec2-user@54.244.56.18
 ```
+**f) Volume'ün salt-okunur mount edilmesi**
+```bash
+sudo mkdir -p /mnt/snapshot
+sudo mount -o ro /dev/nvme1n1p1 /mnt/snapshot
+```
+Volume, olası bir yazma/bozma riskini engellemek için **read-only**
+(`-o ro`) olarak mount edildi. Sonraki adımlarda `/mnt/snapshot`
+altından dosya başarıyla okunabildiği için mount işleminin başarılı
+olduğu doğrulanıyor.
+
 
 Host fingerprint onaylandı (`yes`), Amazon Linux 2023 banner'ı ve
 `lsblk` çıktısı görüldü: kök disk `nvme0n1` (8G, `/` ve `/boot/efi`) ile
@@ -126,20 +136,6 @@ birlikte, attach edilen snapshot volume'ü `nvme1n1` / `nvme1n1p1`
 (8G) — henüz **mount edilmemiş** durumda:
 
 ![SSH bağlantısı, host fingerprint onayı, Amazon Linux 2023 banner, lsblk çıktısı](screenshots/level-4-ssh.png)
-
-**f) Volume'ün salt-okunur mount edilmesi**
-
-Bu adımın kendi ekran görüntüsü yok, ancak yapılan işlem şu:
-
-```bash
-sudo mkdir -p /mnt/snapshot
-sudo mount -o ro /dev/nvme1n1p1 /mnt/snapshot
-```
-
-Volume, olası bir yazma/bozma riskini engellemek için **read-only**
-(`-o ro`) olarak mount edildi. Sonraki adımlarda `/mnt/snapshot`
-altından dosya başarıyla okunabildiği için mount işleminin başarılı
-olduğu doğrulanıyor.
 
 **g) `.htpasswd` içinde hash bulunması**
 
